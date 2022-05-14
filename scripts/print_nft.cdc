@@ -25,5 +25,7 @@ pub fun main() {
 
     log("Account 2 NFTs")
     log(receiver2Ref.getIDs())
+
+    log( receiver1Ref.getMetadata(id: 1))
 }
  
