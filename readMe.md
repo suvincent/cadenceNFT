@@ -19,5 +19,40 @@ there are two account in transfer step, NFT owner and receiver
 -> put meatadata in NFT 
 2. test on testnet (use explorer on testnet)
 
+### CLI-script
+* start emulater
+```
+flow project start-emulator --config-path=flow.json --verbose
+```
 
- 
+* deploy contract
+```
+// command
+flow accounts add-contract $CONTRACT_NAME $CONTRACT_PATH
+// example
+flow accounts add-contract ExampleNFT ./cadence/contracts/ExampleNFT.cdc 
+```
+
+* send transactions
+```
+// command
+flow transactions send $TRANSACTION_PATH --signer $SIGNER
+// example
+flow transactions send ./transactions/MintNFT.cdc --signer emulator-account
+```
+* send script
+```
+// command
+flow scripts execute $TRANSACTION_PATH
+// example
+flow scripts execute ./transactions/MintNFT.cdc
+```
+* create account
+```
+flow accounts create --key --signer
+```
+* create key
+```
+flow keys generate
+```
+
