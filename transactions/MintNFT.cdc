@@ -33,8 +33,9 @@ transaction {
         // the NFT into the collection that is sent as a parameter.
         let newNFT <- self.minterRef.mintNFT()
 
-        self.receiverRef.deposit(token: <-newNFT)
+        self.receiverRef.deposit(token: <-newNFT, metadata: metadata)
 
         log("NFT Minted and deposited to Account 2's Collection")
     }
 }
+ 
