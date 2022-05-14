@@ -11,12 +11,12 @@ pub fun main() {
     let capability = nftOwner.getCapability<&{ExampleNFT.NFTReceiver}>(ExampleNFT.CollectionPublicPath)
 
     // borrow a reference from the capability
-    let receiverRef = capability.borrow()
+    let nftOwnerRef = capability.borrow()
         ?? panic("Could not borrow the receiver reference")
 
     // Log the NFTs that they own as an array of IDs
-    log("Account 1 NFTs")
-    log(receiverRef.getIDs())
-    log( receiverRef.getMetadata(id: 1))
+    log("nftOwner NFTs")
+    log(nftOwnerRef.getIDs())
+    log(nftOwnerRef.getMetadata(id: 1))
 }
  

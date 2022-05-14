@@ -6,26 +6,26 @@ import ExampleNFT from 0xf8d6e0586b0a20c7
 pub fun main() {
 
     // Get both public account objects
-    let account1 = getAccount(0xf8d6e0586b0a20c7)
-	let account2 = getAccount(0x01cf0e2f2f715450)
+    let nftOwner = getAccount(0xf8d6e0586b0a20c7)
+	let nftReceiver = getAccount(0x01cf0e2f2f715450)
 
     // Find the public Receiver capability for their Collections
-    let acct1Capability = account1.getCapability(ExampleNFT.CollectionPublicPath)
-    let acct2Capability = account2.getCapability(ExampleNFT.CollectionPublicPath)
+    let OwnerCapability = nftOwner.getCapability(ExampleNFT.CollectionPublicPath)
+    let ReceiverCapability = nftReceiver.getCapability(ExampleNFT.CollectionPublicPath)
 
     // borrow references from the capabilities
-    let receiver1Ref = acct1Capability.borrow<&{ExampleNFT.NFTReceiver}>()
-        ?? panic("Could not borrow account 1 receiver reference")
-    let receiver2Ref = acct2Capability.borrow<&{ExampleNFT.NFTReceiver}>()
-        ?? panic("Could not borrow account 2 receiver reference")
+    let nftOwnerRef = OwnerCapability.borrow<&{ExampleNFT.NFTReceiver}>()
+        ?? panic("Could not borrow nftOwner reference")
+    let nftReceiverRef = ReceiverCapability.borrow<&{ExampleNFT.NFTReceiver}>()
+        ?? panic("Could not borrow nftReceiver reference")
 
     // Print both collections as arrays of IDs
-    log("Account 1 NFTs")
-    log(receiver1Ref.getIDs())
+    log("nftOwner NFTs")
+    log(nftOwnerRef.getIDs())
     // log( receiver1Ref.getMetadata(id: 1))
 
-    log("Account 2 NFTs")
-    log(receiver2Ref.getIDs())
-    log( receiver2Ref.getMetadata(id: 1))
+    log("nftReceiver NFTs")
+    log(nftReceiverRef.getIDs())
+    log(nftReceiverRef.getMetadata(id: 1))
 }
  

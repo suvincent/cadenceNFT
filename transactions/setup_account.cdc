@@ -14,7 +14,7 @@ transaction {
         // store the empty NFT Collection in account storage
         acct.save<@ExampleNFT.Collection>(<-collection, to: ExampleNFT.CollectionStoragePath)
 
-        log("Collection created for account 1")
+        log("Collection created for nftReceiver")
 
         // create a public capability for the Collection
         acct.link<&{ExampleNFT.NFTReceiver}>(ExampleNFT.CollectionPublicPath, target: ExampleNFT.CollectionStoragePath)

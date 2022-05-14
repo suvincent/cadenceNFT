@@ -36,7 +36,7 @@ transaction (receiver: Address, nft_id: UInt64){
         
         receiverRef.deposit(token: <-self.transferToken, metadata: self.transferMeta)
 
-        log("NFT ID 1 transferred from account 2 to account 1")
+        log("NFT ID 1 transferred from nftOwner to nftReceiver")
     }
 }
  
