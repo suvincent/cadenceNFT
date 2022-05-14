@@ -17,6 +17,9 @@ pub fun main() {
     // Log the NFTs that they own as an array of IDs
     log("nftOwner NFTs")
     log(nftOwnerRef.getIDs())
-    log(nftOwnerRef.getMetadata(id: 1))
+    for id in nftOwnerRef.getIDs() {
+        log(nftOwnerRef.getMetadata(id: id))
+    }
+    // log(nftOwnerRef.getMetadata(id: 1))
 }
  

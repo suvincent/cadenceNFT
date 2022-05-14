@@ -16,11 +16,11 @@ there are two account in transfer step, NFT owner and receiver
 ### Test Steps;
 1. test on emulator (O)
 -> put meatadata in NFT (O)
--> random mint NFT
--> renew metadata(bonus)
--> constraint: no bonus, no transfer(o)
--> change name ->account to owner / receiver
--> in makefile, _nft -> NFT(o)
+-> random mint NFT (O)
+-> renew metadata(bonus)(O)
+-> constraint: no bonus, no transfer(O)
+-> change name ->account to owner / receiver(O)
+-> in makefile, _nft -> NFT (O)
 
 2. test on testnet (use explorer on testnet)
 -> check cmd for whale steps

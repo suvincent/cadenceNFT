@@ -16,23 +16,14 @@ transaction (receiver: Address){
         let collectionRef = acct.borrow<&ExampleNFT.Collection>(from: ExampleNFT.CollectionStoragePath)
             ?? panic("Could not borrow a reference to the owner's collection")
 
-        let bonus_types = 4 as UInt64
-        let r = unsafeRandom() % bonus_types  
-        let ids = collectionRef.getIDs()       
-        var transfer_target_id = 0 as UInt64
-        var find = false;
-        for id in ids {
-            // if this user's NFT is specific type(match bonus_types)
-            if (id % bonus_types == r && !find) {
-                transfer_target_id = id
-                find = true
-            }
-        }
-
+        let ids = collectionRef.getIDs()  
+        let r = unsafeRandom() % UInt64(ids.length)
+        var transfer_target_id = ids[r] as UInt64
+        // assert(!find, message: "there is no enough NFT")
         // Call the withdraw function on the sender's Collection
         // to move the NFT out of the collection
-        self.transferMeta = collectionRef.getMetadata(id: 1)
-        self.transferToken <- collectionRef.withdraw(withdrawID: 1)
+        self.transferMeta = collectionRef.getMetadata(id: transfer_target_id)
+        self.transferToken <- collectionRef.withdraw(withdrawID: transfer_target_id)
         
     }
 
