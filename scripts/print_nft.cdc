@@ -22,10 +22,10 @@ pub fun main() {
     // Print both collections as arrays of IDs
     log("Account 1 NFTs")
     log(receiver1Ref.getIDs())
+    // log( receiver1Ref.getMetadata(id: 1))
 
     log("Account 2 NFTs")
     log(receiver2Ref.getIDs())
-
-    log( receiver1Ref.getMetadata(id: 1))
+    log( receiver2Ref.getMetadata(id: 1))
 }
  

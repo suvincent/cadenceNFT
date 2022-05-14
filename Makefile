@@ -19,6 +19,9 @@ setup_account:
 transfer_nft:
 	flow transactions send ./transactions/transfer_nft.cdc  0x01cf0e2f2f715450 1 --signer emulator-account
 
+transfer_random_nft:
+	flow transactions send ./transactions/transfer_random_nft.cdc  0x01cf0e2f2f715450 --signer emulator-account
+
 print_1_nft:
 	flow scripts execute ./scripts/print_1_nft.cdc
 

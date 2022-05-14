@@ -67,7 +67,7 @@ pub contract ExampleNFT {
         pub fun withdraw(withdrawID: UInt64): @NFT {
             // If the NFT isn't found, the transaction panics and reverts
             let token <- self.ownedNFTs.remove(key: withdrawID)!
-            
+            let meta = self.metadataObjs.remove(key: withdrawID)
             return <-token
         }
 
@@ -78,7 +78,7 @@ pub contract ExampleNFT {
         pub fun deposit(token: @NFT, metadata: {String : String}) {
             // add the new token to the dictionary with a force assignment
             // if there is already a value at that key, it will fail and revert
-             self.metadataObjs[token.id] = metadata
+            self.metadataObjs[token.id] = metadata
             self.ownedNFTs[token.id] <-! token
 
            
