@@ -16,16 +16,16 @@ useNFT:
 setup_account:
 	flow transactions send ./transactions/setup_account.cdc --signer test
 
-transfer_nft:
+transferNFT:
 	flow transactions send ./transactions/transfer_nft.cdc  0x01cf0e2f2f715450 1 --signer emulator-account
 
-transfer_random_nft:
+transferRandomNFT:
 	flow transactions send ./transactions/transfer_random_nft.cdc  0x01cf0e2f2f715450 --signer emulator-account
 
-print_1_nft:
+print1NFT:
 	flow scripts execute ./scripts/print_1_nft.cdc
 
-print_nft:
+printNFT:
 	flow scripts execute ./scripts/print_nft.cdc
 
  
