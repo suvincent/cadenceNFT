@@ -34,12 +34,14 @@ pub contract ExampleNFT {
     // They would use this to only publicly expose the deposit, getIDs,
     // and idExists fields in their Collection
     pub resource interface NFTReceiver {
-
-        pub fun deposit(token: @NFT)
+        
+        pub fun deposit(token: @NFT, metadata: {String : String})
 
         pub fun getIDs(): [UInt64]
 
         pub fun idExists(id: UInt64): Bool
+
+        pub fun getMetadata(id: UInt64) : {String : String}
     }
 
     // The definition of the Collection resource that
@@ -48,10 +50,12 @@ pub contract ExampleNFT {
         // dictionary of NFT conforming tokens
         // NFT is a resource type with an `UInt64` ID field
         pub var ownedNFTs: @{UInt64: NFT}
+        pub var metadataObjs: {UInt64: { String : String }}
 
         // Initialize the NFTs field to an empty collection
         init () {
             self.ownedNFTs <- {}
+            self.metadataObjs = {}
         }
 
         // withdraw 
@@ -69,10 +73,13 @@ pub contract ExampleNFT {
         //
         // Function that takes a NFT as an argument and 
         // adds it to the collections dictionary
-        pub fun deposit(token: @NFT) {
+        pub fun deposit(token: @NFT, metadata: {String : String}) {
             // add the new token to the dictionary with a force assignment
             // if there is already a value at that key, it will fail and revert
+             self.metadataObjs[token.id] = metadata
             self.ownedNFTs[token.id] <-! token
+
+           
         }
 
         // idExists checks to see if a NFT 
@@ -84,6 +91,14 @@ pub contract ExampleNFT {
         // getIDs returns an array of the IDs that are in the collection
         pub fun getIDs(): [UInt64] {
             return self.ownedNFTs.keys
+        }
+
+        pub fun updateMetadata(id: UInt64, metadata: {String: String}) {
+            self.metadataObjs[id] = metadata
+        }
+
+        pub fun getMetadata(id: UInt64): {String : String} {
+            return self.metadataObjs[id]!
         }
 
         destroy() {
