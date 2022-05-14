@@ -17,4 +17,6 @@ pub fun main() {
     // Log the NFTs that they own as an array of IDs
     log("Account 2 NFTs")
     log(receiverRef.getIDs())
+    log( receiverRef.getMetadata(id: 1))
 }
+ 

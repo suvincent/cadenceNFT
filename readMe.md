@@ -15,9 +15,13 @@ there are two account in transfer step, NFT owner and receiver
 
 ### Test Steps;
 1. test on emulator (O)
--> check cmd for whale steps
--> put meatadata in NFT 
+-> put meatadata in NFT (O)
+-> random mint NFT
+-> renew metadata(bonus)
+-> constraint: no bonus, no transfer
+
 2. test on testnet (use explorer on testnet)
+-> check cmd for whale steps
 
 ### CLI-script
 * start emulater
@@ -55,4 +59,6 @@ flow accounts create --key --signer
 ```
 flow keys generate
 ```
+## Reference:
+* random function : https://docs.onflow.org/cadence/language/built-in-functions/#unsaferandom
 
