@@ -18,9 +18,9 @@ there are two account in transfer step, NFT owner and receiver
 -> put meatadata in NFT (O)
 -> random mint NFT
 -> renew metadata(bonus)
--> constraint: no bonus, no transfer
+-> constraint: no bonus, no transfer(o)
 -> change name ->account to owner / receiver
--> in makefile, _nft -> NFT
+-> in makefile, _nft -> NFT(o)
 
 2. test on testnet (use explorer on testnet)
 -> check cmd for whale steps
