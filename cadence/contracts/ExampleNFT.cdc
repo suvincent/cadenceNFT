@@ -42,6 +42,8 @@ pub contract ExampleNFT {
         pub fun idExists(id: UInt64): Bool
 
         pub fun getMetadata(id: UInt64) : {String : String}
+        
+        pub fun useNFT(id: UInt64)
     }
 
     // The definition of the Collection resource that
@@ -65,7 +67,7 @@ pub contract ExampleNFT {
         pub fun withdraw(withdrawID: UInt64): @NFT {
             // If the NFT isn't found, the transaction panics and reverts
             let token <- self.ownedNFTs.remove(key: withdrawID)!
-
+            
             return <-token
         }
 
@@ -100,6 +102,19 @@ pub contract ExampleNFT {
         pub fun getMetadata(id: UInt64): {String : String} {
             return self.metadataObjs[id]!
         }
+
+        pub fun useNFT(id: UInt64 ){
+            //NFT's bonus can't be 0
+            if(self.metadataObjs[id]!["bonus"] == "0"){
+                panic("cannot transfer NFT if bonus is zero")
+            }
+
+            let tmp = self.metadataObjs[id]!
+            tmp["bonus"] = "0";
+            self.metadataObjs[id] =  tmp;
+            log(self.metadataObjs[id]);
+        }
+     
 
         destroy() {
             destroy self.ownedNFTs

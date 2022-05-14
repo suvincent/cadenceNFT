@@ -10,6 +10,9 @@ deployNFT:
 mintNFT:
 	flow transactions send ./transactions/MintNFT.cdc --signer emulator-account
 
+useNFT:
+	flow transactions send ./transactions/useNFT.cdc 1 --signer test
+
 setup_account:
 	flow transactions send ./transactions/setup_account.cdc --signer test
 
