@@ -1,6 +1,6 @@
 // Mint NFT
 
-import ExampleNFT from 0x02
+import ExampleNFT from 0xf8d6e0586b0a20c7
 
 // This transaction allows the Minter account to mint an NFT
 // and deposit it into its collection.

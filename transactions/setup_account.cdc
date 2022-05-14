@@ -1,6 +1,6 @@
 // Setup Account
 
-import ExampleNFT from 0x02
+import ExampleNFT from 0xf8d6e0586b0a20c7
 
 // This transaction configures a user's account
 // to use the NFT contract by creating a new empty collection,

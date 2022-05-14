@@ -1,6 +1,6 @@
 // Transfer
 
-import ExampleNFT from 0x02
+import ExampleNFT from 0xf8d6e0586b0a20c7
 
 // This transaction transfers an NFT from one user's collection
 // to another user's collection.
@@ -23,7 +23,7 @@ transaction {
 
     execute {
         // Get the recipient's public account object
-        let recipient = getAccount(0x01)
+        let recipient = getAccount(0x01cf0e2f2f715450)
 
         // Get the Collection reference for the receiver
         // getting the public capability and borrowing a reference from it
