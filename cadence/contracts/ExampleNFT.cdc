@@ -22,11 +22,22 @@ pub contract ExampleNFT {
     pub resource NFT {
         // The unique ID that differentiates each NFT
         pub let id: UInt64
-
+        pub var metadata: { String : String }
         // Initialize both fields in the init function
-        init(initID: UInt64) {
+        init(initID: UInt64, metadata:{String : String}) {
             self.id = initID
+            self.metadata = metadata
         }
+
+        pub fun getMetadata(): {String : String} {
+            return self.metadata
+        }
+
+        pub fun useBonus(){
+            assert(self.metadata["bonus"] != "0",message:"cannot use NFT if bonus is zero")
+            self.metadata["bonus"] = "0"
+        }
+
     }
 
     // We define this interface purely as a way to allow users
@@ -35,7 +46,7 @@ pub contract ExampleNFT {
     // and idExists fields in their Collection
     pub resource interface NFTReceiver {
         
-        pub fun deposit(token: @NFT, metadata: {String : String})
+        pub fun deposit(token: @NFT)
 
         pub fun getIDs(): [UInt64]
 
@@ -52,12 +63,11 @@ pub contract ExampleNFT {
         // dictionary of NFT conforming tokens
         // NFT is a resource type with an `UInt64` ID field
         pub var ownedNFTs: @{UInt64: NFT}
-        pub var metadataObjs: {UInt64: { String : String }}
+        // pub var metadataObjs: {UInt64: { String : String }}
 
         // Initialize the NFTs field to an empty collection
         init () {
             self.ownedNFTs <- {}
-            self.metadataObjs = {}
         }
 
         // withdraw 
@@ -67,7 +77,6 @@ pub contract ExampleNFT {
         pub fun withdraw(withdrawID: UInt64): @NFT {
             // If the NFT isn't found, the transaction panics and reverts
             let token <- self.ownedNFTs.remove(key: withdrawID)!
-            let meta = self.metadataObjs.remove(key: withdrawID)
             return <-token
         }
 
@@ -75,13 +84,10 @@ pub contract ExampleNFT {
         //
         // Function that takes a NFT as an argument and 
         // adds it to the collections dictionary
-        pub fun deposit(token: @NFT, metadata: {String : String}) {
+        pub fun deposit(token: @NFT) {
             // add the new token to the dictionary with a force assignment
             // if there is already a value at that key, it will fail and revert
-            self.metadataObjs[token.id] = metadata
             self.ownedNFTs[token.id] <-! token
-
-           
         }
 
         // idExists checks to see if a NFT 
@@ -95,24 +101,19 @@ pub contract ExampleNFT {
             return self.ownedNFTs.keys
         }
 
-        pub fun updateMetadata(id: UInt64, metadata: {String: String}) {
-            self.metadataObjs[id] = metadata
-        }
-
         pub fun getMetadata(id: UInt64): {String : String} {
-            return self.metadataObjs[id]!
+            // return self.metadataObjs[id]!
+            let token <- self.ownedNFTs.remove(key: id)!
+            let meta = token.getMetadata()
+            self.ownedNFTs[token.id] <-! token
+            return meta
         }
 
         pub fun useNFT(id: UInt64 ){
             //NFT's bonus can't be 0
-            if(self.metadataObjs[id]!["bonus"] == "0"){
-                panic("cannot transfer NFT if bonus is zero")
-            }
-
-            let tmp = self.metadataObjs[id]!
-            tmp["bonus"] = "0";
-            self.metadataObjs[id] =  tmp;
-            log(self.metadataObjs[id]);
+            let token <- self.ownedNFTs.remove(key: id)!
+            token.useBonus()
+            self.ownedNFTs[token.id] <-! token
         }
      
 
@@ -146,10 +147,10 @@ pub contract ExampleNFT {
         //
         // Function that mints a new NFT with a new ID
         // and returns it to the caller
-        pub fun mintNFT(): @NFT {
+        pub fun mintNFT(metadata : {String : String}): @NFT {
 
             // create a new NFT
-            var newNFT <- create NFT(initID: self.idCount)
+            var newNFT <- create NFT(initID: self.idCount, metadata:metadata)
 
             // change the id so that each ID is unique
             self.idCount = self.idCount + 1 as UInt64
