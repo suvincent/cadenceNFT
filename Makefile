@@ -17,7 +17,7 @@ setup_account:
 	flow transactions send ./transactions/setup_account.cdc --signer test
 
 transferNFT:
-	flow transactions send ./transactions/transfer_nft.cdc  0x01cf0e2f2f715450 2 --signer emulator-account
+	flow transactions send ./transactions/transfer_nft.cdc  0x01cf0e2f2f715450 1 --signer emulator-account
 
 transferRandomNFT:
 	flow transactions send ./transactions/transfer_random_nft.cdc  0x01cf0e2f2f715450 --signer emulator-account
