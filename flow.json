@@ -10,8 +10,8 @@
 	},
 	"accounts": {
 		"testnetOwner": {
-			"address": "0x8c849f63196cc0ba",
-			"key": "92dccb9112ab0dd65f1a48fb7eb5b3387c988d474623521af1485aad0c1d1568"
+			"address": "0x3d72c9627438beaf",
+			"key": "c1fa6397f7166f4dae97acf4f29d8222cf49d3dc2c55d842e72e926b3dc4a732"
 		},
 		"testnetReceiver":{
 			"address":"0xe4cfd0599f12598c",
