@@ -8,7 +8,7 @@ pub fun main() {
     let nftOwner = getAccount(0xf8d6e0586b0a20c7)
 
     // Find the public Receiver capability for their Collection
-    let capability = nftOwner.getCapability<&{ExampleNFT.NFTReceiver}>(ExampleNFT.CollectionPublicPath)
+    let capability = nftOwner.getCapability<&{ExampleNFT.CollectionPublicPath}>(ExampleNFT.CollectionPublicPath)
 
     // borrow a reference from the capability
     let nftOwnerRef = capability.borrow()

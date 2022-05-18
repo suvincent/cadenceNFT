@@ -1,13 +1,15 @@
-import ExampleNFT from 0xf8d6e0586b0a20c7
+import ExampleNFT from "../cadence/contracts/ExampleNFT.cdc"
+import NonFungibleToken from 0x631e88ae7f1d7c20
+
 transaction (nft_id: UInt64){
 
     // The reference to the collection that will be receiving the NFT
-    let receiverRef: &{ExampleNFT.NFTReceiver}
+    let receiverRef: &{NonFungibleToken.CollectionPublic}
     prepare(acct: AuthAccount) {
         // Get the owner's collection capability and borrow a reference
-        self.receiverRef = acct.getCapability<&{ExampleNFT.NFTReceiver}>(ExampleNFT.CollectionPublicPath)
-            .borrow()
-            ?? panic("Could not borrow receiver reference")
+        self.receiverRef = acct.getCapability(ExampleNFT.CollectionPublicPath)
+            .borrow<&{NonFungibleToken.CollectionPublic}>()
+            ?? panic("Could not get receiver reference to the NFT Collection")
 
     }
 
