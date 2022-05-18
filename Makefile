@@ -79,3 +79,8 @@ TestNetUseNFT:
 	flow transactions sign tx1 --signer testnetOwner --filter payload --save signed.rlp --network=testnet
 	flow transactions send-signed signed.rlp --network=testnet
 	
+TestNetprint1NFT:
+	flow scripts execute ./scripts/print_1_nft.cdc -log debug --network=testnet
+
+TestNetprintNFT:
+	flow scripts execute ./scripts/print_nft.cdc -log debug --network=testnet
