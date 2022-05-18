@@ -17,7 +17,7 @@ setup_account:
 	flow transactions send ./transactions/setup_account.cdc --signer test
 
 transferNFT:
-	flow transactions send ./transactions/transfer_nft.cdc  0x01cf0e2f2f715450 1 --signer emulator-account
+	flow transactions send ./transactions/transfer_nft.cdc  0x01cf0e2f2f715450 2 --signer emulator-account
 
 transferRandomNFT:
 	flow transactions send ./transactions/transfer_random_nft.cdc  0x01cf0e2f2f715450 --signer emulator-account
@@ -28,4 +28,12 @@ print1NFT:
 printNFT:
 	flow scripts execute ./scripts/print_nft.cdc
 
- 
+deployContractToTestnet:
+	flow project deploy --network=testnet
+
+buildMintNFTTx:
+	flow transactions build ./transactions/MintNFT.cdc --proposer testnetOwner  --payer testnetOwner  --authorizer testnetOwner --filter payload --save tx1 --network=testnet
+
+ flow transactions sign tx1 --signer testnetOwner --filter payload --save signed.rlp --network=testnet
+
+ flow transactions send-signed signed.rlp --network=testnetw
