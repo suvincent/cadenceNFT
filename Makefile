@@ -28,12 +28,17 @@ print1NFT:
 printNFT:
 	flow scripts execute ./scripts/print_nft.cdc
 
+generateAccountOnTestnet:
+	flow keys generate 
+
 deployContractToTestnet:
 	flow project deploy --network=testnet
 
 buildMintNFTTx:
 	flow transactions build ./transactions/MintNFT.cdc --proposer testnetOwner  --payer testnetOwner  --authorizer testnetOwner --filter payload --save tx1 --network=testnet
 
- flow transactions sign tx1 --signer testnetOwner --filter payload --save signed.rlp --network=testnet
+signMintNFTTx:
+ 	flow transactions sign tx1 --signer testnetOwner --filter payload --save signed.rlp --network=testnet
 
- flow transactions send-signed signed.rlp --network=testnetw
+sendMintNFTTx:
+ 	flow transactions send-signed signed.rlp --network=testnet
