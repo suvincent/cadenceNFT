@@ -34,23 +34,14 @@ generateAccountOnTestnet:
 deployContractToTestnet:
 	flow project deploy --network=testnet --update
 
-buildMintNFTTx:
-	flow transactions build ./transactions/MintNFT.cdc --proposer testnetOwner  --payer testnetOwner  --authorizer testnetOwner --filter payload --save tx1 --network=testnet
-
-signMintNFTTx:
-	flow transactions sign tx1 --signer testnetOwner --filter payload --save signed.rlp --network=testnet
-
-sendMintNFTTx:
-	flow transactions send-signed signed.rlp --network=testnet
-
-TestNetMintNFTTx:
+TestnetMintNFTTx:
 	$(shell rm signed.rlp) \
 	$(shell rm tx1) \
 	flow transactions build ./transactions/MintNFT.cdc --proposer testnetOwner  --payer testnetOwner  --authorizer testnetOwner --filter payload --save tx1 --network=testnet
 	flow transactions sign tx1 --signer testnetOwner --filter payload --save signed.rlp --network=testnet
 	flow transactions send-signed signed.rlp --network=testnet
 
-TestNetsetupAccountTx:
+TestnetSetupAccountTx:
 	$(shell rm signed.rlp) \
 	$(shell rm tx1) \
 	flow transactions build ./transactions/setup_account.cdc --proposer testnetReceiver  --payer testnetReceiver  --authorizer testnetReceiver --filter payload --save tx1 --network=testnet
@@ -58,21 +49,21 @@ TestNetsetupAccountTx:
 	flow transactions send-signed signed.rlp --network=testnet
 
 
-TestNetTransferNFT:
+TestnetTransferNFT:
 	$(shell rm signed.rlp)\
 	$(shell rm tx1)\
-	flow transactions build ./transactions/transfer_nft.cdc 0xe4cfd0599f12598c 1 --proposer testnetOwner  --payer testnetOwner  --authorizer testnetOwner --filter payload --save tx1 --network=testnet
+	flow transactions build ./transactions/transfer_nft.cdc 0x3fe01f91a340cd18 2 --proposer testnetOwner  --payer testnetOwner  --authorizer testnetOwner --filter payload --save tx1 --network=testnet
 	flow transactions sign tx1 --signer testnetOwner --filter payload --save signed.rlp --network=testnet
 	flow transactions send-signed signed.rlp --network=testnet
 
-TestNetTransferRandomNFT:
+TestnetTransferRandomNFT:
 	$(shell rm signed.rlp)\
 	$(shell rm tx1)\
 	flow transactions build ./transactions/transfer_random_nft.cdc 0xe4cfd0599f12598c --proposer testnetOwner  --payer testnetOwner  --authorizer testnetOwner --filter payload --save tx1 --network=testnet
 	flow transactions sign tx1 --signer testnetOwner --filter payload --save signed.rlp --network=testnet
 	flow transactions send-signed signed.rlp --network=testnet
 
-TestNetUseNFT:
+TestnetUseNFT:
 	$(shell rm signed.rlp)\
 	$(shell rm tx1)\
 	flow transactions build ./transactions/useNFT.cdc 2 --proposer testnetOwner  --payer testnetOwner  --authorizer testnetOwner --filter payload --save tx1 --network=testnet
