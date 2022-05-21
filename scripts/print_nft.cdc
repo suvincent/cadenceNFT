@@ -5,15 +5,15 @@ import NonFungibleToken from 0x631e88ae7f1d7c20
 import MetadataViews from 0x631e88ae7f1d7c20
 
 // Print the NFTs owned by accounts 0x01 and 0x02.
-pub fun main():[AnyStruct] {
+pub fun main(receiver: Address,transfer: Address,):[AnyStruct] {
 
     // Get the public account object for account 0x02
     // let nftOwner = getAccount(0xf5306b79c7965708)
     var r : [AnyStruct] = []
 
-    let addrArray = [0xf5306b79c7965708,0xe4cfd0599f12598c]
+    let addrArray = [receiver,transfer]
     for index, element in addrArray {
-        let nftOwner = getAccount(Address(element))
+        let nftOwner = getAccount(element)
 
         // borrow a reference from the capability
         let nftOwnerRef = nftOwner.getCapability(ExampleNFT.CollectionPublicPath)
