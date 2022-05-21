@@ -9,7 +9,7 @@ endef
 UseNFT_index := 1
 TransferNFT_index := 2
 Print1NFT_Addr := $(NFTOwner)
-PrintNFT_Addrs := "$(NFTOwner) $(NFTReceiver)"
+PrintNFT_Addrs := $(NFTOwner) $(NFTReceiver)
 
 qq:
 	echo $(PrintNFT_Addrs)
