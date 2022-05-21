@@ -11,9 +11,6 @@ TransferNFT_index := 2
 Print1NFT_Addr := $(NFTOwner)
 PrintNFT_Addrs := $(NFTOwner) $(NFTReceiver)
 
-qq:
-	echo $(PrintNFT_Addrs)
-
 emulate: 
 	flow project start-emulator --config-path=flow.json --verbose
 
