@@ -71,7 +71,7 @@ TestnetUseNFT:
 	flow transactions send-signed signed.rlp --network=testnet
 	
 TestNetprint1NFT:
-	flow scripts execute ./scripts/print_1_nft.cdc -log debug --network=testnet
+	flow scripts execute ./scripts/print_1_nft.cdc 0xf0c1e54ce7d0a4e2 --network=testnet
 
 TestNetprintNFT:
-	flow scripts execute ./scripts/print_nft.cdc -log debug --network=testnet
+	flow scripts execute ./scripts/print_nft.cdc 0xf0c1e54ce7d0a4e2 0x3fe01f91a340cd18 --network=testnet
