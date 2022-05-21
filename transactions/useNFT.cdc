@@ -15,12 +15,8 @@ transaction (nft_id: UInt64){
 
     execute {
 
-        let nft = self.receiverRef.borrowExampleNFT(id: nft_id)
-        log(nft.getMetadata())
-        //log msg
-        let log1 = "NFT".concat(nft_id.toString())
-        let log2 = log1.concat(" be used");
-        log(log2)
+        let nft = self.receiverRef.borrowExampleNFT(id: nft_id)!
+        nft.useBonus()
 
     }
 }
