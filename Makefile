@@ -1,3 +1,19 @@
+define NFTOwner
+$(shell node -p "require('./flow.json').accounts.testnetOwner.address")
+endef
+
+define NFTReceiver
+$(shell node -p "require('./flow.json').accounts.testnetReceiver.address")
+endef
+
+UseNFT_index := 1
+TransferNFT_index := 2
+Print1NFT_Addr := $(NFTOwner)
+PrintNFT_Addrs := "$(NFTOwner) $(NFTReceiver)"
+
+qq:
+	echo $(PrintNFT_Addrs)
+
 emulate: 
 	flow project start-emulator --config-path=flow.json --verbose
 
@@ -11,22 +27,22 @@ mintNFT:
 	flow transactions send ./transactions/MintNFT.cdc --signer emulator-account
 
 useNFT:
-	flow transactions send ./transactions/useNFT.cdc 1 --signer test
+	flow transactions send ./transactions/useNFT.cdc $(UseNFT_index) --signer test
 
 setup_account:
 	flow transactions send ./transactions/setup_account.cdc --signer test
 
 transferNFT:
-	flow transactions send ./transactions/transfer_nft.cdc  0x01cf0e2f2f715450 2 --signer emulator-account
+	flow transactions send ./transactions/transfer_nft.cdc  $(NFTReceiver) $(TransferNFT_index) --signer emulator-account
 
 transferRandomNFT:
 	flow transactions send ./transactions/transfer_random_nft.cdc  0x01cf0e2f2f715450 --signer emulator-account
 
 print1NFT:
-	flow scripts execute ./scripts/print_1_nft.cdc
+	flow scripts execute ./scripts/print_1_nft.cdc $(Print1NFT_Addr)
 
 printNFT:
-	flow scripts execute ./scripts/print_nft.cdc
+	flow scripts execute ./scripts/print_nft.cdc $(PrintNFT_Addrs)
 
 generateAccountOnTestnet:
 	flow keys generate 
@@ -52,26 +68,26 @@ TestnetSetupAccountTx:
 TestnetTransferNFT:
 	$(shell rm signed.rlp)\
 	$(shell rm tx1)\
-	flow transactions build ./transactions/transfer_nft.cdc 0x3fe01f91a340cd18 2 --proposer testnetOwner  --payer testnetOwner  --authorizer testnetOwner --filter payload --save tx1 --network=testnet
+	flow transactions build ./transactions/transfer_nft.cdc $(NFTReceiver) $(TransferNFT_index) --proposer testnetOwner  --payer testnetOwner  --authorizer testnetOwner --filter payload --save tx1 --network=testnet
 	flow transactions sign tx1 --signer testnetOwner --filter payload --save signed.rlp --network=testnet
 	flow transactions send-signed signed.rlp --network=testnet
 
 TestnetTransferRandomNFT:
 	$(shell rm signed.rlp)\
 	$(shell rm tx1)\
-	flow transactions build ./transactions/transfer_random_nft.cdc 0xe4cfd0599f12598c --proposer testnetOwner  --payer testnetOwner  --authorizer testnetOwner --filter payload --save tx1 --network=testnet
+	flow transactions build ./transactions/transfer_random_nft.cdc $(NFTReceiver) --proposer testnetOwner  --payer testnetOwner  --authorizer testnetOwner --filter payload --save tx1 --network=testnet
 	flow transactions sign tx1 --signer testnetOwner --filter payload --save signed.rlp --network=testnet
 	flow transactions send-signed signed.rlp --network=testnet
 
 TestnetUseNFT:
 	$(shell rm signed.rlp)\
 	$(shell rm tx1)\
-	flow transactions build ./transactions/useNFT.cdc 2 --proposer testnetOwner  --payer testnetOwner  --authorizer testnetOwner --filter payload --save tx1 --network=testnet
+	flow transactions build ./transactions/useNFT.cdc $(UseNFT_index) --proposer testnetOwner  --payer testnetOwner  --authorizer testnetOwner --filter payload --save tx1 --network=testnet
 	flow transactions sign tx1 --signer testnetOwner --filter payload --save signed.rlp --network=testnet
 	flow transactions send-signed signed.rlp --network=testnet
 	
 TestNetprint1NFT:
-	flow scripts execute ./scripts/print_1_nft.cdc 0xf0c1e54ce7d0a4e2 --network=testnet
+	flow scripts execute ./scripts/print_1_nft.cdc $(Print1NFT_Addr) --network=testnet
 
 TestNetprintNFT:
-	flow scripts execute ./scripts/print_nft.cdc 0xf0c1e54ce7d0a4e2 0x3fe01f91a340cd18 --network=testnet
+	flow scripts execute ./scripts/print_nft.cdc $(PrintNFT_Addrs) --network=testnet
