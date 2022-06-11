@@ -16,7 +16,6 @@ transaction (nft_id: UInt64){
     execute {
 
         let nft = self.receiverRef.borrowExampleNFT(id: nft_id)!
-        nft.changeUrlAfterBonus()
         nft.useBonus()
 
     }
