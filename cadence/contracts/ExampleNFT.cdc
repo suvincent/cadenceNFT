@@ -28,10 +28,7 @@ pub contract ExampleNFT: NonFungibleToken{
     pub event UseBonus(id: UInt64)
 
     pub var totalSupply: UInt64
-    pub var uri1AfterBonus:String
-    pub var uri2AfterBonus:String
-    pub var uri3AfterBonus:String
-    pub var uri4AfterBonus:String
+
     // Declare the NFT resource type
     pub resource NFT: NonFungibleToken.INFT, MetadataViews.Resolver  {
         // The unique ID that differentiates each NFT
@@ -52,21 +49,6 @@ pub contract ExampleNFT: NonFungibleToken{
             emit UseBonus(id: self.id)
         }
 
-        pub fun changeUrlAfterBonus(){
-            if (self.metadata["bonus"] == "5"){
-                self.metadata["uri"] = ExampleNFT.uri1AfterBonus
-            }
-            if (self.metadata["bonus"] == "10"){
-                self.metadata["uri"] = ExampleNFT.uri2AfterBonus
-            }
-            if (self.metadata["bonus"] == "15"){
-                self.metadata["uri"] = ExampleNFT.uri3AfterBonus
-            }
-            if (self.metadata["bonus"] == "20"){
-                self.metadata["uri"] = ExampleNFT.uri4AfterBonus
-            }
-        }
-
         pub fun getViews(): [Type] {
             return [
                 Type<MetadataViews.Display>()
@@ -75,14 +57,25 @@ pub contract ExampleNFT: NonFungibleToken{
 
         pub fun resolveView(_ view: Type): AnyStruct? {
             switch view {
-            case Type<MetadataViews.Display>():
-                return MetadataViews.Display(
-                    id: self.id.toString(),
-                    bonus: self.metadata["bonus"]!,
-                    thumbnail: MetadataViews.HTTPFile(
-                        url: self.metadata["uri"]!
+                case Type<MetadataViews.Display>():
+                if(self.metadata["bonus"]!="0"){
+                    return MetadataViews.Display(
+                        id: self.id.toString(),
+                        bonus: self.metadata["bonus"]!,
+                        thumbnail: MetadataViews.HTTPFile(
+                            url: self.metadata["uri"]!
+                        )
                     )
-                )
+                }
+                    else{
+                        return MetadataViews.Display(
+                        id: self.id.toString(),
+                        bonus: self.metadata["bonus"]!,
+                        thumbnail: MetadataViews.HTTPFile(
+                            url: self.metadata["usedUri"]!
+                        )
+                    )
+                    }
             }
             return nil;
         }
@@ -191,10 +184,6 @@ pub contract ExampleNFT: NonFungibleToken{
         self.CollectionPublicPath = /public/nftTutorialCollection
         self.MinterStoragePath = /storage/nftTutorialMinter
         self.totalSupply = 0
-        self.uri1AfterBonus = "ipfs://QmY9Eob5RqDvuLJ4D6odNsePmDHuGcPT2joU1zLYj1ofqp"
-        self.uri2AfterBonus = "ipfs://QmZcPvJA6oSGfQwDP3TdqQDJwQ9LnQg9gd4S3YSgVsToVx"
-        self.uri3AfterBonus = "ipfs://QmegMDnWqj2r772VoZnMQnorL8Ns7VURGHYvQDdkoHaTVV"
-        self.uri4AfterBonus = "ipfs://QmWdh4819M584unFcyyJDNvvXpMF1r7sBpeAA1Rxnrb5Vx"
 		// store an empty NFT Collection in account storage
         self.account.save(<-self.createEmptyCollection(), to: self.CollectionStoragePath)
 
