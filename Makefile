@@ -6,10 +6,13 @@ define NFTReceiver
 $(shell node -p "require('./flow.json').accounts.testnetReceiver.address")
 endef
 
-UseNFT_index := 1
+UseNFT_index := 0
 TransferNFT_index := 2
 Print1NFT_Addr := $(NFTOwner)
 PrintNFT_Addrs := $(NFTOwner) $(NFTReceiver)
+MetaDataUrlBefore := "ipfs://QmdMBBGDsUhJwsJVovZCMbAY8HMnZTRSrLbET6qeS9D823"
+MetaDataUrlAfter := "ipfs://QmY9Eob5RqDvuLJ4D6odNsePmDHuGcPT2joU1zLYj1ofqp"
+Bonus := "5"
 
 emulate: 
 	flow project start-emulator --config-path=flow.json --verbose
@@ -50,7 +53,7 @@ deployContractToTestnet:
 TestnetMintNFTTx:
 	$(shell rm signed.rlp) \
 	$(shell rm tx1) \
-	flow transactions build ./transactions/MintNFT.cdc --proposer testnetOwner  --payer testnetOwner  --authorizer testnetOwner --filter payload --save tx1 --network=testnet
+	flow transactions build ./transactions/MintNFT.cdc $(MetaDataUrlBefore) $(MetaDataUrlAfter) $(Bonus) --proposer testnetOwner  --payer testnetOwner  --authorizer testnetOwner --filter payload --save tx1 --network=testnet
 	flow transactions sign tx1 --signer testnetOwner --filter payload --save signed.rlp --network=testnet
 	flow transactions send-signed signed.rlp --network=testnet
 
