@@ -114,18 +114,18 @@ pub contract ExampleNFT: NonFungibleToken{
         }
 
         pub fun borrowNFT(id: UInt64): &NonFungibleToken.NFT {
-            return &self.ownedNFTs[id] as &NonFungibleToken.NFT
+            return (&self.ownedNFTs[id] as &NonFungibleToken.NFT?)!
         }
 
         pub fun borrowViewResolver(id: UInt64): &AnyResource{MetadataViews.Resolver} {
-            let nft = &self.ownedNFTs[id] as auth &NonFungibleToken.NFT
+            let nft = (&self.ownedNFTs[id] as auth &NonFungibleToken.NFT?)!
             let card = nft as! &ExampleNFT.NFT
             return card as &AnyResource{MetadataViews.Resolver}
         }
 
         pub fun borrowExampleNFT(id: UInt64): &ExampleNFT.NFT? {
             if self.ownedNFTs[id] != nil {
-                let ref = &self.ownedNFTs[id] as auth &NonFungibleToken.NFT
+                let ref = (&self.ownedNFTs[id] as auth &NonFungibleToken.NFT?)!
                 return ref as! &ExampleNFT.NFT
             } else {
                 return nil
