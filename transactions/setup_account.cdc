@@ -1,6 +1,7 @@
 // Setup Account
 
-import ExampleNFT from 0xf8d6e0586b0a20c7
+import ExampleNFT from "../cadence/contracts/ExampleNFT.cdc"
+import NonFungibleToken from 0x631e88ae7f1d7c20
 
 // This transaction configures a user's account
 // to use the NFT contract by creating a new empty collection,
@@ -8,16 +9,24 @@ import ExampleNFT from 0xf8d6e0586b0a20c7
 transaction {
     prepare(acct: AuthAccount) {
 
+        // Return early if the account already has a collection
+        if acct.borrow<&ExampleNFT.Collection>(from: ExampleNFT.CollectionStoragePath) != nil {
+            return
+        }
+
         // Create a new empty collection
         let collection <- ExampleNFT.createEmptyCollection()
 
-        // store the empty NFT Collection in account storage
-        acct.save<@ExampleNFT.Collection>(<-collection, to: ExampleNFT.CollectionStoragePath)
+        // save it to the account
+        acct.save(<-collection, to: ExampleNFT.CollectionStoragePath)
 
         log("Collection created for nftReceiver")
 
         // create a public capability for the Collection
-        acct.link<&{ExampleNFT.NFTReceiver}>(ExampleNFT.CollectionPublicPath, target: ExampleNFT.CollectionStoragePath)
+        acct.link<&{NonFungibleToken.CollectionPublic, ExampleNFT.ExampleNFTCollectionPublic}>(
+            ExampleNFT.CollectionPublicPath,
+            target: ExampleNFT.CollectionStoragePath
+        )
 
         log("Capability created")
     }

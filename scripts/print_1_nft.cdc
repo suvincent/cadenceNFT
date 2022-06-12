@@ -1,25 +1,27 @@
 // Print 0x02 NFTs
 
-import ExampleNFT from 0xf8d6e0586b0a20c7
+import ExampleNFT from "../cadence/contracts/ExampleNFT.cdc"
+import NonFungibleToken from 0x631e88ae7f1d7c20
+import MetadataViews from 0x631e88ae7f1d7c20
 
-// Print the NFTs owned by account 0x02.
-pub fun main() {
-    // Get the public account object for account 0x02
-    let nftOwner = getAccount(0xf8d6e0586b0a20c7)
-
-    // Find the public Receiver capability for their Collection
-    let capability = nftOwner.getCapability<&{ExampleNFT.NFTReceiver}>(ExampleNFT.CollectionPublicPath)
+pub fun main(receiver: Address):[AnyStruct]{
+    let nftOwner = getAccount(receiver)
 
     // borrow a reference from the capability
-    let nftOwnerRef = capability.borrow()
-        ?? panic("Could not borrow the receiver reference")
+    let nftOwnerRef = nftOwner.getCapability(ExampleNFT.CollectionPublicPath)
+            .borrow<&{ExampleNFT.ExampleNFTCollectionPublic}>()
+            ?? panic("Could not get receiver reference to the NFT Collection")
 
     // Log the NFTs that they own as an array of IDs
     log("nftOwner NFTs")
-    log(nftOwnerRef.getIDs())
-    for id in nftOwnerRef.getIDs() {
-        log(nftOwnerRef.getMetadata(id: id))
+    var r : [AnyStruct] = []
+
+    let ids = nftOwnerRef.getIDs()
+    for id in ids {
+        let nft = nftOwnerRef.borrowExampleNFT(id: id)!
+        let view = nft.resolveView(Type<MetadataViews.Display>())!
+        r.append(view)
     }
-    // log(nftOwnerRef.getMetadata(id: 1))
+    return r
 }
  

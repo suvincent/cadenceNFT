@@ -1,12 +1,7 @@
 {
-	"emulators": {
-		"default": {
-			"port": 3569,
-			"serviceAccount": "emulator-account"
-		}
-	},
+
 	"contracts": {
-		"PinataPartyContract": "./cadence/contracts/PinataPartyContract.cdc"
+		"ExampleNFT": "./cadence/contracts/ExampleNFT.cdc"
 	},
 	"networks": {
 		"emulator": "127.0.0.1:3569",
@@ -14,18 +9,18 @@
 		"testnet": "access.devnet.nodes.onflow.org:9000"
 	},
 	"accounts": {
-		"emulator-account": {
-			"address": "0xf8d6e0586b0a20c7",
-			"key": "5b34f1ef0219066d5ab97a22a3bc973040be4c7ba125bcf2d076b7b7baddbf66"
+		"testnetOwner": {
+			"address": "0xf5306b79c7965708",
+			"key": "394ec829a52ae0bae3df71e83057cbb1b686f1c8b1017acb867e07cc5ee8ef3f"
 		},
-		"test":{
-			"address":"0x01cf0e2f2f715450",
-			"key": "d332bc50e392ba8c98bf9d948fbaaa125a7bb72d3c32128fb46b4ce1e327a59d"
+		"testnetReceiver":{
+			"address":"0xe4cfd0599f12598c",
+			"key": "2438a7b0ced54270a186cf3dea115665652021d41290bc1f8a33a0ab716067de"
 		}
 	},
 	"deployments": {
-		"emulator": {
-			"emulator-account": ["PinataPartyContract"]
+		"testnet": {
+			"testnetOwner": ["ExampleNFT"]
 	   }
 	}
 }
