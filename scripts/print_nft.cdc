@@ -1,6 +1,6 @@
 // Print All NFTs
 
-import ExampleNFT from 0xf8d6e0586b0a20c7
+import EverSinceNFT from 0xf8d6e0586b0a20c7
 
 // Print the NFTs owned by accounts 0x01 and 0x02.
 pub fun main() {
@@ -10,13 +10,13 @@ pub fun main() {
 	let nftReceiver = getAccount(0x01cf0e2f2f715450)
 
     // Find the public Receiver capability for their Collections
-    let OwnerCapability = nftOwner.getCapability(ExampleNFT.CollectionPublicPath)
-    let ReceiverCapability = nftReceiver.getCapability(ExampleNFT.CollectionPublicPath)
+    let OwnerCapability = nftOwner.getCapability(EverSinceNFT.CollectionPublicPath)
+    let ReceiverCapability = nftReceiver.getCapability(EverSinceNFT.CollectionPublicPath)
 
     // borrow references from the capabilities
-    let nftOwnerRef = OwnerCapability.borrow<&{ExampleNFT.NFTReceiver}>()
+    let nftOwnerRef = OwnerCapability.borrow<&{EverSinceNFT.NFTReceiver}>()
         ?? panic("Could not borrow nftOwner reference")
-    let nftReceiverRef = ReceiverCapability.borrow<&{ExampleNFT.NFTReceiver}>()
+    let nftReceiverRef = ReceiverCapability.borrow<&{EverSinceNFT.NFTReceiver}>()
         ?? panic("Could not borrow nftReceiver reference")
 
     // Print both collections as arrays of IDs

@@ -1,6 +1,6 @@
 // Print 0x02 NFTs
 
-import ExampleNFT from 0xf8d6e0586b0a20c7
+import EverSinceNFT from 0xf8d6e0586b0a20c7
 
 // Print the NFTs owned by account 0x02.
 pub fun main() {
@@ -8,7 +8,7 @@ pub fun main() {
     let nftOwner = getAccount(0xf8d6e0586b0a20c7)
 
     // Find the public Receiver capability for their Collection
-    let capability = nftOwner.getCapability<&{ExampleNFT.NFTReceiver}>(ExampleNFT.CollectionPublicPath)
+    let capability = nftOwner.getCapability<&{EverSinceNFT.NFTReceiver}>(EverSinceNFT.CollectionPublicPath)
 
     // borrow a reference from the capability
     let nftOwnerRef = capability.borrow()

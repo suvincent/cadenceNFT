@@ -1,6 +1,6 @@
-// ExampleNFT.cdc
+// EverSinceNFT.cdc
 //
-// This is a complete version of the ExampleNFT contract
+// This is a complete version of the EverSinceNFT contract
 // that includes withdraw and deposit functionality, as well as a
 // collection resource that can be used to bundle NFTs together.
 //
@@ -9,7 +9,7 @@
 //
 // Learn more about non-fungible tokens in this tutorial: https://docs.onflow.org/docs/non-fungible-tokens
 
-pub contract ExampleNFT {
+pub contract EverSinceNFT {
 
     // Declare Path constants so paths do not have to be hardcoded
     // in transactions and scripts

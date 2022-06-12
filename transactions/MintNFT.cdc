@@ -1,6 +1,6 @@
 // Mint NFT
 
-import ExampleNFT from 0xf8d6e0586b0a20c7
+import EverSinceNFT from 0xf8d6e0586b0a20c7
 
 // This transaction allows the Minter account to mint an NFT
 // and deposit it into its collection.
@@ -8,19 +8,19 @@ import ExampleNFT from 0xf8d6e0586b0a20c7
 transaction {
 
     // The reference to the collection that will be receiving the NFT
-    let receiverRef: &{ExampleNFT.NFTReceiver}
+    let receiverRef: &{EverSinceNFT.NFTReceiver}
 
     // The reference to the Minter resource stored in account storage
-    let minterRef: &ExampleNFT.NFTMinter
+    let minterRef: &EverSinceNFT.NFTMinter
 
     prepare(acct: AuthAccount) {
         // Get the owner's collection capability and borrow a reference
-        self.receiverRef = acct.getCapability<&{ExampleNFT.NFTReceiver}>(ExampleNFT.CollectionPublicPath)
+        self.receiverRef = acct.getCapability<&{EverSinceNFT.NFTReceiver}>(EverSinceNFT.CollectionPublicPath)
             .borrow()
             ?? panic("Could not borrow receiver reference")
         
         // Borrow a capability for the NFTMinter in storage
-        self.minterRef = acct.borrow<&ExampleNFT.NFTMinter>(from: ExampleNFT.MinterStoragePath)
+        self.minterRef = acct.borrow<&EverSinceNFT.NFTMinter>(from: EverSinceNFT.MinterStoragePath)
             ?? panic("could not borrow minter reference")
     }
 

@@ -36,7 +36,7 @@ flow project start-emulator --config-path=flow.json --verbose
 // command
 flow accounts add-contract $CONTRACT_NAME $CONTRACT_PATH
 // example
-flow accounts add-contract ExampleNFT ./cadence/contracts/ExampleNFT.cdc 
+flow accounts add-contract EverSinceNFT ./cadence/contracts/EverSinceNFT.cdc 
 ```
 
 * send transactions

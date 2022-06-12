@@ -21,11 +21,18 @@
 		"test":{
 			"address":"0x01cf0e2f2f715450",
 			"key": "d332bc50e392ba8c98bf9d948fbaaa125a7bb72d3c32128fb46b4ce1e327a59d"
-		}
+		},
+		"my-mainnet-account": {
+			"address": "ADDRESS_FROM_PREVIOUS_STEP",
+			"key": "PRIVATE_KEY_GENERATED_IN_PREVIOUS_STEP"
+		  }
 	},
 	"deployments": {
 		"emulator": {
 			"emulator-account": ["PinataPartyContract"]
-	   }
+	   },
+	   "mainnet": {
+		"my-mainnet-account": ["EverSinceNFT"]
+	  }
 	}
 }

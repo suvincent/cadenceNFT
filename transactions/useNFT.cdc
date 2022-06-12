@@ -1,11 +1,11 @@
-import ExampleNFT from 0xf8d6e0586b0a20c7
+import EverSinceNFT from 0xf8d6e0586b0a20c7
 transaction (nft_id: UInt64){
 
     // The reference to the collection that will be receiving the NFT
-    let receiverRef: &{ExampleNFT.NFTReceiver}
+    let receiverRef: &{EverSinceNFT.NFTReceiver}
     prepare(acct: AuthAccount) {
         // Get the owner's collection capability and borrow a reference
-        self.receiverRef = acct.getCapability<&{ExampleNFT.NFTReceiver}>(ExampleNFT.CollectionPublicPath)
+        self.receiverRef = acct.getCapability<&{EverSinceNFT.NFTReceiver}>(EverSinceNFT.CollectionPublicPath)
             .borrow()
             ?? panic("Could not borrow receiver reference")
 
