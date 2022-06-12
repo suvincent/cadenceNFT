@@ -1,6 +1,7 @@
 // Setup Account
 
-import EverSinceNFT from 0xf8d6e0586b0a20c7
+import EverSinceNFT from "../cadence/contracts/EverSinceNFT.cdc"
+import NonFungibleToken from 0x631e88ae7f1d7c20
 
 // This transaction configures a user's account
 // to use the NFT contract by creating a new empty collection,
@@ -16,15 +17,17 @@ transaction {
         // Create a new empty collection
         let collection <- EverSinceNFT.createEmptyCollection()
 
-        // store the empty NFT Collection in account storage
-        acct.save<@EverSinceNFT.Collection>(<-collection, to: EverSinceNFT.CollectionStoragePath)
+        // save it to the account
+        acct.save(<-collection, to: EverSinceNFT.CollectionStoragePath)
 
         log("Collection created for nftReceiver")
 
         // create a public capability for the Collection
-        acct.link<&{EverSinceNFT.NFTReceiver}>(EverSinceNFT.CollectionPublicPath, target: EverSinceNFT.CollectionStoragePath)
+        acct.link<&{NonFungibleToken.CollectionPublic, EverSinceNFT.EverSinceNFTCollectionPublic}>(
+            EverSinceNFT.CollectionPublicPath,
+            target: EverSinceNFT.CollectionStoragePath
+        )
 
         log("Capability created")
     }
 }
- 

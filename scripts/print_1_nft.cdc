@@ -1,14 +1,10 @@
 // Print 0x02 NFTs
+import EverSinceNFT from "../cadence/contracts/EverSinceNFT.cdc"
+import NonFungibleToken from 0x631e88ae7f1d7c20
+import MetadataViews from 0x631e88ae7f1d7c20
 
-import EverSinceNFT from 0xf8d6e0586b0a20c7
-
-// Print the NFTs owned by account 0x02.
-pub fun main() {
-    // Get the public account object for account 0x02
-    let nftOwner = getAccount(0xf8d6e0586b0a20c7)
-
-    // Find the public Receiver capability for their Collection
-    let capability = nftOwner.getCapability<&{EverSinceNFT.NFTReceiver}>(EverSinceNFT.CollectionPublicPath)
+pub fun main(receiver: Address):[AnyStruct]{
+    let nftOwner = getAccount(receiver)
 
     // borrow a reference from the capability
     let nftOwnerRef = nftOwner.getCapability(EverSinceNFT.CollectionPublicPath)
@@ -27,4 +23,3 @@ pub fun main() {
     }
     return r
 }
- 

@@ -13,7 +13,7 @@
 import NonFungibleToken from 0x631e88ae7f1d7c20
 import MetadataViews from 0x631e88ae7f1d7c20
 
-pub contract EverSinceNFT {
+pub contract EverSinceNFT : NonFungibleToken{
 
     // Declare Path constants so paths do not have to be hardcoded
     // in transactions and scripts
