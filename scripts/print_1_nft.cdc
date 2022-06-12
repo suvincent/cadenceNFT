@@ -11,15 +11,20 @@ pub fun main() {
     let capability = nftOwner.getCapability<&{EverSinceNFT.NFTReceiver}>(EverSinceNFT.CollectionPublicPath)
 
     // borrow a reference from the capability
-    let nftOwnerRef = capability.borrow()
-        ?? panic("Could not borrow the receiver reference")
+    let nftOwnerRef = nftOwner.getCapability(EverSinceNFT.CollectionPublicPath)
+            .borrow<&{EverSinceNFT.EverSinceNFTCollectionPublic}>()
+            ?? panic("Could not get receiver reference to the NFT Collection")
 
     // Log the NFTs that they own as an array of IDs
     log("nftOwner NFTs")
-    log(nftOwnerRef.getIDs())
-    for id in nftOwnerRef.getIDs() {
-        log(nftOwnerRef.getMetadata(id: id))
+    var r : [AnyStruct] = []
+
+    let ids = nftOwnerRef.getIDs()
+    for id in ids {
+        let nft = nftOwnerRef.borrowEverSinceNFT(id: id)!
+        let view = nft.resolveView(Type<MetadataViews.Display>())!
+        r.append(view)
     }
-    // log(nftOwnerRef.getMetadata(id: 1))
+    return r
 }
  

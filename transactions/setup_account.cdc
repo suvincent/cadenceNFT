@@ -8,6 +8,11 @@ import EverSinceNFT from 0xf8d6e0586b0a20c7
 transaction {
     prepare(acct: AuthAccount) {
 
+        // Return early if the account already has a collection
+        if acct.borrow<&EverSinceNFT.Collection>(from: EverSinceNFT.CollectionStoragePath) != nil {
+            return
+        }
+
         // Create a new empty collection
         let collection <- EverSinceNFT.createEmptyCollection()
 

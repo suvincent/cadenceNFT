@@ -1,14 +1,26 @@
 // Mint NFT
 
+<<<<<<< HEAD
 import EverSinceNFT from 0xf8d6e0586b0a20c7
+=======
+import EverSinceNFT from "../cadence/contracts/EverSinceNFT.cdc"
+import NonFungibleToken from 0x631e88ae7f1d7c20
+// import MetadataViews from "../cadence/contracts/MetadataViews.cdc"
+// import FungibleToken from "../cadence/contracts/FungibleToken.cdc"
+
+>>>>>>> 2d46cf9f2ad38e923dc5e2fe36ffe48c2abf6b0a
 
 // This transaction allows the Minter account to mint an NFT
 // and deposit it into its collection.
 
-transaction {
+transaction(beforeUrl:String,afterUrl:String,bonus:String) {
 
     // The reference to the collection that will be receiving the NFT
+<<<<<<< HEAD
     let receiverRef: &{EverSinceNFT.NFTReceiver}
+=======
+    let receiverRef: &{NonFungibleToken.CollectionPublic}
+>>>>>>> 2d46cf9f2ad38e923dc5e2fe36ffe48c2abf6b0a
 
     // The reference to the Minter resource stored in account storage
     let minterRef: &EverSinceNFT.NFTMinter
@@ -26,14 +38,13 @@ transaction {
 
     execute {
         let metadata : {String : String} = {
-          "bonus": "5",
-          "uri": "ipfs://QmdMBBGDsUhJwsJVovZCMbAY8HMnZTRSrLbET6qeS9D823"
+          "bonus": bonus,
+          "uri": beforeUrl,
+          "usedUri":afterUrl
         }
         // Use the minter reference to mint an NFT, which deposits
         // the NFT into the collection that is sent as a parameter.
-        let newNFT <- self.minterRef.mintNFT()
-
-        self.receiverRef.deposit(token: <-newNFT, metadata: metadata)
+        let newNFT = self.minterRef.mintNFT(recipient: self.receiverRef ,metadata: metadata)
 
         log("NFT Minted and deposited to nftOwner's Collection")
     }
