@@ -82,7 +82,7 @@ TestnetTransferRandomNFT:
 TestnetUseNFT:
 	$(shell rm signed.rlp)\
 	$(shell rm tx1)\
-	flow transactions build ./transactions/useNFT.cdc $(UseNFT_index) --proposer testnetOwner  --payer testnetOwner  --authorizer testnetOwner --filter payload --save tx1 --network=testnet
+	flow transactions build ./transactions/useNFT.cdc $(UseNFT_index) $(NFTReceiver) --proposer testnetOwner  --payer testnetOwner  --authorizer testnetOwner --filter payload --save tx1 --network=testnet
 	flow transactions sign tx1 --signer testnetOwner --filter payload --save signed.rlp --network=testnet
 	flow transactions send-signed signed.rlp --network=testnet
 	

@@ -33,20 +33,23 @@ pub contract EverSinceNFT : NonFungibleToken{
         // The unique ID that differentiates each NFT
         pub let id: UInt64
         pub var metadata: { String : String }
+        pub let minter: Address
         // Initialize both fields in the init function
-        init(initID: UInt64, metadata:{String : String}) {
+        init(initID: UInt64, metadata:{String : String}, minter:Address) {
             self.id = initID
             self.metadata = metadata
+            self.minter = minter
         }
         pub fun getMetadata(): {String : String} {
             return self.metadata
         }
 
-        pub fun useBonus(){
+        pub fun useBonus(minter: AuthAccount){
+            assert(self.minter == minter.address,message:"only minter can approve bonus")
             assert(self.metadata["bonus"] != "0",message:"cannot use NFT if bonus is zero")
             self.metadata["bonus"] = "0"
             emit UseBonus(id: self.id)
-        }
+        }  
 
         pub fun getViews(): [Type] {
             return [
@@ -172,7 +175,7 @@ pub contract EverSinceNFT : NonFungibleToken{
         //
         pub fun mintNFT(recipient: &{NonFungibleToken.CollectionPublic}, metadata: {String : String}) {
             // deposit it in the recipient's account using their reference
-            recipient.deposit(token: <-create EverSinceNFT.NFT(initID: EverSinceNFT.totalSupply, metadata: metadata))
+            recipient.deposit(token: <-create EverSinceNFT.NFT(initID: EverSinceNFT.totalSupply, metadata: metadata, minter: self.owner?.address!))
 
             EverSinceNFT.totalSupply = EverSinceNFT.totalSupply + (1 as UInt64)
         }
