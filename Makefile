@@ -6,12 +6,12 @@ define NFTReceiver
 $(shell node -p "require('./flow.json').accounts.testnetReceiver.address")
 endef
 
-UseNFT_index := 0
+UseNFT_index := 2
 TransferNFT_index := 2
 Print1NFT_Addr := $(NFTOwner)
 PrintNFT_Addrs := $(NFTOwner) $(NFTReceiver)
-MetaDataUrlBefore := "ipfs://QmdMBBGDsUhJwsJVovZCMbAY8HMnZTRSrLbET6qeS9D823"
-MetaDataUrlAfter := "ipfs://QmY9Eob5RqDvuLJ4D6odNsePmDHuGcPT2joU1zLYj1ofqp"
+MetaDataUrlBefore := "https://eversince-upload-provider.s3.ap-east-1.amazonaws.com/nft_nash_mock_1_00e25aafa3.png"
+MetaDataUrlAfter := "https://ipfs.io/ipfs/QmdMBBGDsUhJwsJVovZCMbAY8HMnZTRSrLbET6qeS9D823"
 Bonus := "5"
 
 emulate: 
@@ -53,7 +53,7 @@ deployContractToTestnet:
 TestnetMintNFTTx:
 	$(shell rm signed.rlp) \
 	$(shell rm tx1) \
-	flow transactions build ./transactions/MintNFT.cdc $(MetaDataUrlBefore) $(MetaDataUrlAfter) $(Bonus) --proposer testnetOwner  --payer testnetOwner  --authorizer testnetOwner --filter payload --save tx1 --network=testnet
+	flow transactions build ./transactions/MintNFT_mul.cdc $(MetaDataUrlBefore) $(MetaDataUrlAfter) $(Bonus) 10 --proposer testnetOwner  --payer testnetOwner  --authorizer testnetOwner --filter payload --save tx1 --network=testnet
 	flow transactions sign tx1 --signer testnetOwner --filter payload --save signed.rlp --network=testnet
 	flow transactions send-signed signed.rlp --network=testnet
 
@@ -75,7 +75,14 @@ TestnetTransferNFT:
 TestnetTransferRandomNFT:
 	$(shell rm signed.rlp)\
 	$(shell rm tx1)\
-	flow transactions build ./transactions/transfer_random_nft.cdc $(NFTReceiver) --proposer testnetOwner  --payer testnetOwner  --authorizer testnetOwner --filter payload --save tx1 --network=testnet
+	flow transactions build ./transactions/transfer_random_nft_mul.cdc $(NFTReceiver) 2 --proposer testnetOwner  --payer testnetOwner  --authorizer testnetOwner --filter payload --save tx1 --network=testnet
+	flow transactions sign tx1 --signer testnetOwner --filter payload --save signed.rlp --network=testnet
+	flow transactions send-signed signed.rlp --network=testnet
+
+TestnetTransferRandomNFTUsed:
+	$(shell rm signed.rlp)\
+	$(shell rm tx1)\
+	flow transactions build ./transactions/transfer_random_nft_mul_use.cdc 14 $(NFTReceiver) 1 --proposer testnetOwner  --payer testnetOwner  --authorizer testnetOwner --filter payload --save tx1 --network=testnet
 	flow transactions sign tx1 --signer testnetOwner --filter payload --save signed.rlp --network=testnet
 	flow transactions send-signed signed.rlp --network=testnet
 
@@ -89,5 +96,11 @@ TestnetUseNFT:
 TestNetprint1NFT:
 	flow scripts execute ./scripts/print_1_nft.cdc $(Print1NFT_Addr) --network=testnet
 
+TestNetprint1NFT:
+	flow scripts execute ./scripts/print_1_nft.cdc $(Print1NFT_Addr) --network=testnet
+
 TestNetprintNFT:
 	flow scripts execute ./scripts/print_nft.cdc $(PrintNFT_Addrs) --network=testnet
+
+TestNetprint1NFTOwner:
+	flow scripts execute ./scripts/print_nft_owner.cdc $(Print1NFT_Addr) 6 --network=testnet

@@ -11,6 +11,9 @@
 import NonFungibleToken from 0x631e88ae7f1d7c20
 import MetadataViews from 0x631e88ae7f1d7c20
 import FungibleToken from 0x9a0766d93b6608b7
+// import FungibleToken from "./FungibleToken.cdc"
+// import NonFungibleToken from "./NonFungibleToken.cdc"
+// import MetadataViews from "./MetadataViews.cdc"
 
 pub contract EverSinceNFT : NonFungibleToken{
 
@@ -33,19 +36,18 @@ pub contract EverSinceNFT : NonFungibleToken{
         // The unique ID that differentiates each NFT
         pub let id: UInt64
         pub var metadata: { String : String }
-        pub let minter: Address
         // Initialize both fields in the init function
-        init(initID: UInt64, metadata:{String : String}, minter:Address) {
+        init(initID: UInt64, metadata:{String : String}) {
             self.id = initID
             self.metadata = metadata
-            self.minter = minter
         }
         pub fun getMetadata(): {String : String} {
             return self.metadata
         }
 
         pub fun useBonus(minter: AuthAccount){
-            assert(self.minter == minter.address,message:"only minter can approve bonus")
+            let m = minter.address.toString()
+            assert(self.metadata["minter"] == m,message:"only minter can approve bonus")
             assert(self.metadata["bonus"] != "0",message:"cannot use NFT if bonus is zero")
             self.metadata["bonus"] = "0"
             emit UseBonus(id: self.id)
@@ -175,16 +177,17 @@ pub contract EverSinceNFT : NonFungibleToken{
         //
         pub fun mintNFT(recipient: &{NonFungibleToken.CollectionPublic}, metadata: {String : String}) {
             // deposit it in the recipient's account using their reference
-            recipient.deposit(token: <-create EverSinceNFT.NFT(initID: EverSinceNFT.totalSupply, metadata: metadata, minter: self.owner?.address!))
+            metadata["minter"] = self.owner?.address!.toString()
+            recipient.deposit(token: <-create EverSinceNFT.NFT(initID: EverSinceNFT.totalSupply, metadata: metadata))
 
             EverSinceNFT.totalSupply = EverSinceNFT.totalSupply + (1 as UInt64)
         }
     }
 
 	init() {
-        self.CollectionStoragePath = /storage/nftTutorialCollection
-        self.CollectionPublicPath = /public/nftTutorialCollection
-        self.MinterStoragePath = /storage/nftTutorialMinter
+        self.CollectionStoragePath = /storage/nftCollection
+        self.CollectionPublicPath = /public/nftCollection
+        self.MinterStoragePath = /storage/nftMinter
         self.totalSupply = 0
 		// store an empty NFT Collection in account storage
         self.account.save(<-self.createEmptyCollection(), to: self.CollectionStoragePath)
