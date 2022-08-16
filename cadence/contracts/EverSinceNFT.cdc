@@ -25,6 +25,8 @@ pub contract EverSinceNFT : NonFungibleToken{
     pub let MinterStoragePath: StoragePath
 
     pub event ContractInitialized()
+    pub event CreateNewEmptyCollection()
+    pub event BorrowEverSinceNFT(id: UInt64)
     pub event Withdraw(id: UInt64, from: Address?)
     pub event Deposit(id: UInt64, to: Address?)
     pub event UseBonus(id: UInt64)
@@ -142,6 +144,7 @@ pub contract EverSinceNFT : NonFungibleToken{
         pub fun borrowEverSinceNFT(id: UInt64): &EverSinceNFT.NFT? {
             if self.ownedNFTs[id] != nil {
                 let ref = (&self.ownedNFTs[id] as auth &NonFungibleToken.NFT?)!
+                emit BorrowEverSinceNFT(id: id)
                 return ref as! &EverSinceNFT.NFT
             } else {
                 return nil
@@ -159,6 +162,7 @@ pub contract EverSinceNFT : NonFungibleToken{
 
     // creates a new empty Collection resource and returns it 
     pub fun createEmptyCollection(): @NonFungibleToken.Collection {
+        emit CreateNewEmptyCollection()
         return <- create Collection()
     }
 
