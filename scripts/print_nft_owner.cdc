@@ -1,4 +1,4 @@
-// Print 0x02 NFTs
+// This function is to fetch all metadata in NFT
 import EverSinceNFT from "../cadence/contracts/EverSinceNFT.cdc"
 // import NonFungibleToken from "../cadence/contracts/NonFungibleToken.cdc"
 // import MetadataViews from "../cadence/contracts/MetadataViews.cdc"
@@ -6,7 +6,7 @@ import EverSinceNFT from "../cadence/contracts/EverSinceNFT.cdc"
 import NonFungibleToken from 0x631e88ae7f1d7c20
 import MetadataViews from 0x631e88ae7f1d7c20
 
-pub fun main(receiver: Address, id: UInt64):{String : String}{
+pub fun main(receiver: Address):[AnyStruct]{
     let nftOwner = getAccount(receiver)
 
     // borrow a reference from the capability
@@ -18,6 +18,11 @@ pub fun main(receiver: Address, id: UInt64):{String : String}{
     log("nftOwner NFTs")
     var r : [AnyStruct] = []
 
-    let nft = nftOwnerRef.borrowEverSinceNFT(id: id)!
-    return nft.getMetadata()
+    let ids = nftOwnerRef.getIDs()
+    for id in ids {
+        let nft = nftOwnerRef.borrowEverSinceNFT(id: id)!
+        let view = nft.getMetadata()
+        r.append(view)
+    }
+    return r
 }
