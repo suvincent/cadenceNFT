@@ -27,7 +27,6 @@ pub contract EverSinceNFT : NonFungibleToken{
 
     pub event ContractInitialized()
     pub event CreateNewEmptyCollection()
-    pub event BorrowEverSinceNFT(id: UInt64)
     pub event Withdraw(id: UInt64, from: Address?)
     pub event Deposit(id: UInt64, to: Address?)
     pub event UseBonus(id: UInt64)
