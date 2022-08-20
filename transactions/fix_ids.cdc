@@ -15,9 +15,8 @@ transaction (receiver: Address, num: Int, experience:String){
         // Borrow a capability for the NFTMinter in storage
         let minterRef = acct.borrow<&EverSinceNFT.NFTMinter>(from: EverSinceNFT.MinterStoragePath)
             ?? panic("could not borrow minter reference")
-
-            minterRef.removeExperienceIds(experience:experience, id:1)
-            minterRef.removeExperienceIds(experience:experience, id:5)
+            minterRef.removeExperienceIds(sku:experience, id:1)
+            minterRef.removeExperienceIds(sku:experience, id:5)
     }
 
     execute {

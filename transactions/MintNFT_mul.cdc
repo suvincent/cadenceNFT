@@ -10,7 +10,7 @@ import NonFungibleToken from 0x631e88ae7f1d7c20
 // This transaction allows the Minter account to mint an NFT
 // and deposit it into its collection.
 
-transaction(beforeUrl:String,afterUrl:String,bonus:String, num: Int, experience: String) {
+transaction(beforeUrl:String,afterUrl:String,bonus:String, num: Int, experience: String, sku: String) {
 
     // The reference to the collection that will be receiving the NFT
     let receiverRef: &{NonFungibleToken.CollectionPublic}
@@ -35,6 +35,7 @@ transaction(beforeUrl:String,afterUrl:String,bonus:String, num: Int, experience:
           "uri": beforeUrl,
           "usedUri":afterUrl,
           "experience": experience,
+          "sku":sku,
           "editionNumber": "3", //THIS CAN BE AN INTEGER OR A STRING
           "editionCount": "3",//THIS CAN BE AN INTEGER OR A STRING
           "royaltyAddress": "0xcd0f974468e9b489",//THIS CAN BE AN INTEGER OR A STRING

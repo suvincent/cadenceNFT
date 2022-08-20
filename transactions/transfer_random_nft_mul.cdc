@@ -7,7 +7,7 @@ import NonFungibleToken from 0x631e88ae7f1d7c20
 
 // This transaction transfers an NFT from one user's collection
 // to another user's collection.
-transaction (receiver: Address, nums: [Int], experiences:[String]){
+transaction (receiver: Address, nums: [Int], sku:[String]){
 
     // let transferMeta: { String : String }
     prepare(acct: AuthAccount) {
@@ -28,12 +28,12 @@ transaction (receiver: Address, nums: [Int], experiences:[String]){
         while i < nums.length {
             var j = 0
             while j < nums[i]{
-                let ids = minterRef.GetExperienceIds(experience:experiences[i])
+                let ids = minterRef.GetExperienceIds(sku:sku[i])
                 let r = unsafeRandom() % UInt64(ids.length)
                 var transfer_target_id = ids[r] as UInt64
                 var transferToken <- collectionRef.withdraw(withdrawID: transfer_target_id)
                 receiverRef.deposit(token: <-transferToken)
-                minterRef.removeExperienceIds(experience:experiences[i], id:transfer_target_id)
+                minterRef.removeExperienceIds(sku:sku[i], id:transfer_target_id)
                 j = j + 1
             }
             i = i+1

@@ -63,10 +63,18 @@ pub contract EverSinceNFT : NonFungibleToken{
         }
 
         pub fun resolveView(_ view: Type): AnyStruct? {
+            var sku = "\"undefined\""
+            if self.metadata["sku"] != nil {
+                sku = "\""
+                sku = sku.concat(self.metadata["sku"]!)
+                sku = sku.concat("\"")
+            }
             var description = "{\"bonus\":"
             description = description.concat(self.metadata["bonus"]!)
             description = description.concat(",\"id\":")
             description = description.concat(self.id.toString())
+            description = description.concat(",\"sku\":")
+            description = description.concat(sku)
             description = description.concat("}")
             switch view {
                 case Type<MetadataViews.Display>():
@@ -176,7 +184,7 @@ pub contract EverSinceNFT : NonFungibleToken{
     // Resource that would be owned by an admin or by a smart contract 
     // that allows them to mint new NFTs when needed
     pub resource interface EverSinceNFTMinterPublic {
-        pub fun GetExperienceIds(experience:String):[UInt64] 
+        pub fun GetExperienceIds(sku:String):[UInt64] 
     }
     pub resource NFTMinter:EverSinceNFTMinterPublic {
         // mintNFT 
@@ -192,33 +200,33 @@ pub contract EverSinceNFT : NonFungibleToken{
             self.NFTPool = {}
         }
 
-        pub fun GetExperienceIds(experience:String):[UInt64] {
-            if self.NFTPool[experience] != nil{
-                return self.NFTPool[experience]!
+        pub fun GetExperienceIds(sku:String):[UInt64] {
+            if self.NFTPool[sku] != nil{
+                return self.NFTPool[sku]!
             }
             else{
                 return []
             }
         }
 
-        pub fun removeExperienceIds(experience:String, id:UInt64){
-            let indexOfid = self.NFTPool[experience]!.firstIndex(of: id);
-            self.NFTPool[experience]!.remove(at: indexOfid!)
+        pub fun removeExperienceIds(sku:String, id:UInt64){
+            let indexOfid = self.NFTPool[sku]!.firstIndex(of: id);
+            self.NFTPool[sku]!.remove(at: indexOfid!)
         }
 
-        pub fun AddExperienceIds(experience:String, id:UInt64){
-            self.NFTPool[experience]!.append(id)
+        pub fun AddExperienceIds(sku:String, id:UInt64){
+            self.NFTPool[sku]!.append(id)
         }
 
         pub fun mintNFT(recipient: &{NonFungibleToken.CollectionPublic}, metadata: {String : String}) {
             // deposit it in the recipient's account using their reference
             metadata["minter"] = self.owner?.address!.toString()
             recipient.deposit(token: <-create EverSinceNFT.NFT(initID: EverSinceNFT.totalSupply, metadata: metadata))
-            let experience = metadata["experience"]!
-            if self.NFTPool[experience] != nil {
-                self.NFTPool[experience]!.append(EverSinceNFT.totalSupply)
+            let sku = metadata["sku"]!
+            if self.NFTPool[sku] != nil {
+                self.NFTPool[sku]!.append(EverSinceNFT.totalSupply)
             }else{
-                self.NFTPool[experience] = [EverSinceNFT.totalSupply]
+                self.NFTPool[sku] = [EverSinceNFT.totalSupply]
             }
             EverSinceNFT.totalSupply = EverSinceNFT.totalSupply + (1 as UInt64)
         }

@@ -10,5 +10,5 @@ pub fun main(experience: String, receiver: Address):[AnyStruct]{
     let nftOwnerRef = nftOwner.getCapability(EverSinceNFT.MinterPublicPath)
             .borrow<&{EverSinceNFT.EverSinceNFTMinterPublic}>()
             ?? panic("Could not get receiver reference to the NFT Collection")
-    return nftOwnerRef.GetExperienceIds(experience:experience);      
+    return nftOwnerRef.GetExperienceIds(sku:experience);      
 }
