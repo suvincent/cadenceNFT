@@ -10,11 +10,13 @@ UseNFT_index := 2
 TransferNFT_index := 2
 Print1NFT_Addr := $(NFTOwner)
 PrintNFT_Addrs := $(NFTOwner) $(NFTReceiver)
-experience := 'Steve Nash Autographed Jersey & Nash Themed Sneakers'
-# MetaDataUrlBefore := "https://eversince-upload-provider.s3.ap-east-1.amazonaws.com/lumin_andre_bonus_1_916d284659.jpg"
-# MetaDataUrlAfter := "https://eversince-upload-provider.s3.ap-east-1.amazonaws.com/lumin_andre_nobonus_1_2a5c4ca45e.jpg"
-MetaDataUrlBefore := "https://eversince-upload-provider.s3.ap-east-1.amazonaws.com/nft_nash_mock_1_00e25aafa3.png"
-MetaDataUrlAfter := "https://ipfs.io/ipfs/QmdMBBGDsUhJwsJVovZCMbAY8HMnZTRSrLbET6qeS9D823"
+# sku := 'Steve Nash Autographed Jersey & Nash Themed Sneakers'
+experience := 'Culinary Masterclass with Chef André Chiang'
+MetaDataUrlBefore := "https://eversince-upload-provider.s3.ap-east-1.amazonaws.com/lumin_andre_bonus_1_916d284659.jpg"
+MetaDataUrlAfter := "https://eversince-upload-provider.s3.ap-east-1.amazonaws.com/lumin_andre_nobonus_1_2a5c4ca45e.jpg"
+# MetaDataUrlBefore := "https://eversince-upload-provider.s3.ap-east-1.amazonaws.com/nft_nash_mock_1_00e25aafa3.png"
+# MetaDataUrlAfter := "https://ipfs.io/ipfs/QmdMBBGDsUhJwsJVovZCMbAY8HMnZTRSrLbET6qeS9D823"
+sku := "es-000002"
 Bonus := "10"
 
 emulate: 
@@ -56,7 +58,7 @@ deployContractToTestnet:
 TestnetMintNFTTx:
 	$(shell rm signed.rlp) \
 	$(shell rm tx1) \
-	flow transactions build ./transactions/MintNFT_mul.cdc $(MetaDataUrlBefore) $(MetaDataUrlAfter) $(Bonus) 10 $(experience) --proposer testnetOwner  --payer testnetOwner  --authorizer testnetOwner --filter payload --save tx1 --network=testnet
+	flow transactions build ./transactions/MintNFT_mul.cdc $(MetaDataUrlBefore) $(MetaDataUrlAfter) $(Bonus) 10 $(experience) $(sku) --proposer testnetOwner  --payer testnetOwner  --authorizer testnetOwner --filter payload --save tx1 --network=testnet
 	flow transactions sign tx1 --signer testnetOwner --filter payload --save signed.rlp --network=testnet
 	flow transactions send-signed signed.rlp --network=testnet
 
@@ -109,4 +111,4 @@ TestNetprint1NFTOwner:
 	flow scripts execute ./scripts/print_nft_owner.cdc $(Print1NFT_Addr) --network=testnet
 
 TestNetGetExpIds:
-	flow scripts execute ./scripts/getexperienceIds.cdc $(experience) $(Print1NFT_Addr)  --network=testnet
+	flow scripts execute ./scripts/getexperienceIds.cdc $(sku) $(Print1NFT_Addr)  --network=testnet
