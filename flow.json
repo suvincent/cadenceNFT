@@ -16,9 +16,13 @@
 			"address": "0xe4cfd0599f12598c",
 			"key": "2438a7b0ced54270a186cf3dea115665652021d41290bc1f8a33a0ab716067de"
 		},
-		"my-mainnet-account": {
+		"mainnetOwner": {
 			"address": "0x6b4769766a067d0d",
 			"key": "REPLACE_HERE"
+		},
+		"mainnetReceiver":{
+			"address":"0xba70497e274b5591",
+			"key":"636d754f7de72258cd5791440e2451e914d58bf702c85739404d8150bb8562da"
 		}
 	},
 	"deployments": {
@@ -28,7 +32,7 @@
 			]
 		},
 		"mainnet": {
-			"my-mainnet-account": [
+			"mainnetOwner": [
 				"EverSinceNFT"
 			]
 		}

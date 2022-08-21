@@ -1,7 +1,7 @@
 // Print 0x02 NFTs
 import EverSinceNFT from "../cadence/contracts/EverSinceNFT.cdc"
-import NonFungibleToken from 0x631e88ae7f1d7c20
-import MetadataViews from 0x631e88ae7f1d7c20
+import NonFungibleToken from 0x1d7e57aa55817448
+import MetadataViews from 0x1d7e57aa55817448
 
 pub fun main(experience: String, receiver: Address):[AnyStruct]{
     let nftOwner = getAccount(receiver)

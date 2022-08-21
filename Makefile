@@ -1,13 +1,13 @@
 define NFTOwner
-$(shell node -p "require('./flow.json').accounts.testnetOwner.address")
+$(shell node -p "require('./flow.json').accounts.mainnetOwner.address")
 endef
 
 define NFTReceiver
-$(shell node -p "require('./flow.json').accounts.testnetReceiver.address")
+$(shell node -p "require('./flow.json').accounts.mainnetReceiver.address")
 endef
 
-UseNFT_index := 2
-TransferNFT_index := 2
+UseNFT_index := 5
+TransferNFT_index := 5
 Print1NFT_Addr := $(NFTOwner)
 PrintNFT_Addrs := $(NFTOwner) $(NFTReceiver)
 # sku := 'Steve Nash Autographed Jersey & Nash Themed Sneakers'
@@ -114,11 +114,11 @@ TestNetGetExpIds:
 	flow scripts execute ./scripts/getexperienceIds.cdc $(sku) $(Print1NFT_Addr)  --network=testnet
 
 MainnetMintNFTTx:
-$(shell rm signed.rlp) \
-$(shell rm tx1) \
-flow transactions build ./transactions/MintNFT_mul.cdc $(MetaDataUrlBefore) $(MetaDataUrlAfter) $(Bonus) 10 $(experience) $(sku) --proposer my-mainnet-account  --payer my-mainnet-account  --authorizer my-mainnet-account --filter payload --save tx1 --network=mainnet
-flow transactions sign tx1 --signer my-mainnet-account --filter payload --save signed.rlp --network=mainnet
-flow transactions send-signed signed.rlp --network=mainnet
+	$(shell rm signed.rlp) \
+	$(shell rm tx1) \
+	flow transactions build ./transactions/MintNFT_mul.cdc $(MetaDataUrlBefore) $(MetaDataUrlAfter) $(Bonus) 10 $(experience) $(sku) --proposer mainnetOwner  --payer mainnetOwner  --authorizer mainnetOwner --filter payload --save tx1 --network=mainnet
+	flow transactions sign tx1 --signer mainnetOwner --filter payload --save signed.rlp --network=mainnet
+	flow transactions send-signed signed.rlp --network=mainnet
 
 MainnetSetupAccountTx:
 	$(shell rm signed.rlp) \
@@ -131,34 +131,31 @@ MainnetSetupAccountTx:
 MainnetTransferNFT:
 	$(shell rm signed.rlp)\
 	$(shell rm tx1)\
-	flow transactions build ./transactions/transfer_nft.cdc $(NFTReceiver) $(TransferNFT_index) --proposer my-mainnet-account  --payer my-mainnet-account  --authorizer my-mainnet-account --filter payload --save tx1 --network=mainnet
-	flow transactions sign tx1 --signer my-mainnet-account --filter payload --save signed.rlp --network=mainnet
+	flow transactions build ./transactions/transfer_nft.cdc $(NFTReceiver) $(TransferNFT_index) --proposer mainnetOwner  --payer mainnetOwner  --authorizer mainnetOwner --filter payload --save tx1 --network=mainnet
+	flow transactions sign tx1 --signer mainnetOwner --filter payload --save signed.rlp --network=mainnet
 	flow transactions send-signed signed.rlp --network=mainnet
 
 # MainnetTransferRandomNFT:
 # 	$(shell rm signed.rlp)\
 # 	$(shell rm tx1)\
-# 	flow transactions build ./transactions/transfer_random_nft_mul.cdc 0x02723ede0b54434d 2  'Culinary Masterclass with Chef André Chiang' --proposer my-mainnet-account  --payer my-mainnet-account  --authorizer my-mainnet-account --filter payload --save tx1 --network=mainnet
-# 	flow transactions sign tx1 --signer my-mainnet-account --filter payload --save signed.rlp --network=mainnet
+# 	flow transactions build ./transactions/transfer_random_nft_mul.cdc 0x02723ede0b54434d 2  'Culinary Masterclass with Chef André Chiang' --proposer mainnetOwner  --payer mainnetOwner  --authorizer mainnetOwner --filter payload --save tx1 --network=mainnet
+# 	flow transactions sign tx1 --signer mainnetOwner --filter payload --save signed.rlp --network=mainnet
 # 	flow transactions send-signed signed.rlp --network=mainnet
 
 # MainnetTransferRandomNFTUsed:
 # 	$(shell rm signed.rlp)\
 # 	$(shell rm tx1)\
-# 	flow transactions build ./transactions/transfer_random_nft_mul_use.cdc 14 $(NFTReceiver) 1 --proposer my-mainnet-account  --payer my-mainnet-account  --authorizer my-mainnet-account --filter payload --save tx1 --network=mainnet
-# 	flow transactions sign tx1 --signer my-mainnet-account --filter payload --save signed.rlp --network=mainnet
+# 	flow transactions build ./transactions/transfer_random_nft_mul_use.cdc 14 $(NFTReceiver) 1 --proposer mainnetOwner  --payer mainnetOwner  --authorizer mainnetOwner --filter payload --save tx1 --network=mainnet
+# 	flow transactions sign tx1 --signer mainnetOwner --filter payload --save signed.rlp --network=mainnet
 # 	flow transactions send-signed signed.rlp --network=mainnet
 
 MainnetUseNFT:
 	$(shell rm signed.rlp)\
 	$(shell rm tx1)\
-	flow transactions build ./transactions/useNFT.cdc $(UseNFT_index) $(NFTReceiver) --proposer my-mainnet-account  --payer my-mainnet-account  --authorizer my-mainnet-account --filter payload --save tx1 --network=mainnet
-	flow transactions sign tx1 --signer my-mainnet-account --filter payload --save signed.rlp --network=mainnet
+	flow transactions build ./transactions/useNFT.cdc $(UseNFT_index) $(NFTReceiver) --proposer mainnetOwner  --payer mainnetOwner  --authorizer mainnetOwner --filter payload --save tx1 --network=mainnet
+	flow transactions sign tx1 --signer mainnetOwner --filter payload --save signed.rlp --network=mainnet
 	flow transactions send-signed signed.rlp --network=mainnet
 	
-MainNetprint1NFT:
-	flow scripts execute ./scripts/print_1_nft.cdc $(Print1NFT_Addr) --network=mainnet
-
 MainNetprint1NFT:
 	flow scripts execute ./scripts/print_1_nft.cdc $(Print1NFT_Addr) --network=mainnet
 

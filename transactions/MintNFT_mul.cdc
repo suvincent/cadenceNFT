@@ -1,7 +1,7 @@
 // Mint NFT
 
 import EverSinceNFT from "../cadence/contracts/EverSinceNFT.cdc"
-import NonFungibleToken from 0x631e88ae7f1d7c20
+import NonFungibleToken from 0x1d7e57aa55817448
 // import NonFungibleToken from "../cadence/contracts/NonFungibleToken.cdc"
 // import MetadataViews from "../cadence/contracts/MetadataViews.cdc"
 // import FungibleToken from "../cadence/contracts/FungibleToken.cdc"
