@@ -31,9 +31,15 @@ transaction (receiver: Address, nums: [Int], sku:[String]){
                 let ids = minterRef.GetExperienceIds(sku:sku[i])
                 let r = unsafeRandom() % UInt64(ids.length)
                 var transfer_target_id = ids[r] as UInt64
-                var transferToken <- collectionRef.withdraw(withdrawID: transfer_target_id)
-                receiverRef.deposit(token: <-transferToken)
-                minterRef.removeExperienceIds(sku:sku[i], id:transfer_target_id)
+                // var transferToken <- collectionRef.withdraw(withdrawID: transfer_target_id)
+                // receiverRef.deposit(token: <-transferToken)
+                // minterRef.removeExperienceIds(sku:sku[i], id:transfer_target_id)
+
+                //mint transfer_target_id NFT for owner
+                let nft = collectionRef.borrowEverSinceNFT(id: transfer_target_id)!
+                let view = nft.getMetadata()
+                let newNFT = minterRef.mintNFT(recipient: receiverRef ,metadata: view)
+                
                 j = j + 1
             }
             i = i+1
