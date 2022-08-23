@@ -31,6 +31,7 @@ transaction(beforeUrl:String,afterUrl:String,bonus:String, num: Int, experience:
 
     execute {
         let metadata : {String : String} = {
+          "name":"Milk Powder",
           "bonus": bonus,
           "uri": beforeUrl,
           "usedUri":afterUrl,
