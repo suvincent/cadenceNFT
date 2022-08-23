@@ -36,8 +36,8 @@ transaction(beforeUrl:String,afterUrl:String,bonus:String, num: Int, experience:
           "usedUri":afterUrl,
           "experience": experience,
           "sku":sku,
-          "editionNumber": "3", //THIS CAN BE AN INTEGER OR A STRING
-          "editionCount": "3",//THIS CAN BE AN INTEGER OR A STRING
+          "editionNumber": "1", //THIS CAN BE AN INTEGER OR A STRING
+          "editionCount": "1",//THIS CAN BE AN INTEGER OR A STRING
           "royaltyAddress": "0xcd0f974468e9b489",//THIS CAN BE AN INTEGER OR A STRING
           "royaltyPercentage": "10.0"//THIS CAN BE AN INTEGER OR A STRING
         }
